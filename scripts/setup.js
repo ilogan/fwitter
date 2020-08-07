@@ -33,12 +33,12 @@ This script will (Do not worry! It will all do this for you):
 
 const main = async () => {
   // In order to set up a database, we need a admin key
-  let adminKey = process.env.REACT_APP_LOCAL___ADMIN
+  let adminKey = process.env.REACT_APP_LOCAL___ADMIN //! defined on line 50
 
   // If this option is provided, the db will be created as a child db of the database
   // that the above admin key belongs to. This is useful to destroy/recreate a database
   // easily without having to wait for cache invalidation of collection/index names.
-  const childDbName = process.env.REACT_APP_LOCAL___CHILD_DB_NAME
+  const childDbName = process.env.REACT_APP_LOCAL___CHILD_DB_NAME  //!  undefined
 
   // Ask the user for a key if it's not provided in the environment variables yet.
   if (!adminKey) {
@@ -52,8 +52,9 @@ const main = async () => {
     })
     console.log(explanation)
   }
-  let client = new faunadb.Client({ secret: adminKey })
+  let client = new faunadb.Client({ secret: adminKey }) //! create a client with the adminKey
 
+  //! if there's a child db client is replaced with new admin key
   if (typeof childDbName !== 'undefined' && childDbName !== '') {
     await handleSetupError(
       client.query(If(Exists(Database(childDbName)), false, CreateDatabase({ name: childDbName }))),
